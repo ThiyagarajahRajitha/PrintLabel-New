@@ -48,6 +48,7 @@ namespace PrintLabel_New
             int fonsizeSmall = Convert.ToInt32(ConfigurationManager.AppSettings["fonsizeSmall"]);
             int fontsizeLarge = Convert.ToInt32(ConfigurationManager.AppSettings["fontsizeLarge"]);
             string takeAway = Convert.ToString(ConfigurationManager.AppSettings["takeAway"]);
+            bool isWithCustomerName = Convert.ToBoolean(ConfigurationManager.AppSettings["isWithCustomerName"]);
 
             Font font = new Font("Courier New", fonsizeSmall, FontStyle.Bold);
             float fontHeight = font.GetHeight();
@@ -109,8 +110,22 @@ namespace PrintLabel_New
 
             graphic.DrawString("------------------------------------", new Font("Courier New", fonsizeSmall, FontStyle.Bold), new SolidBrush(Color.Black), startX, startY + offset);
             offset = offset + 12;
-            graphic.DrawString("Total Qty. " + printData.BillTransactions.Count, new Font("Courier New", fonsizeSmall), new SolidBrush(Color.Black), startX, startY + offset);
+            graphic.DrawString("Total Qty. " + printData.BillTransactions.Count(x => x.tran_type != "A"), new Font("Courier New", fonsizeSmall), new SolidBrush(Color.Black), startX, startY + offset);
+            offset = offset + (int)fontHeight + 7;
+
+            if (isWithCustomerName)
+            {
+                offset = offset + 8;
+                graphic.DrawString("Name: " + printData.DeliveryMoreAddress.FirstOrDefault().Cfname, new Font("Courier New", fonsizeSmall), new SolidBrush(Color.Black), startX, startY + offset);
+                offset = offset + (int)fontHeight + 7;
+
+                graphic.DrawString("Tel: " + printData.DeliveryMoreAddress.FirstOrDefault().cPhone, new Font("Courier New", fonsizeSmall), new SolidBrush(Color.Black), startX, startY + offset);
+                offset = offset + (int)fontHeight + 7;
+            }
+            graphic.DrawString("Pick up time : " + printData.bill_end_time, new Font("Courier New", fonsizeSmall), new SolidBrush(Color.Black), startX, startY + offset);
+
             offset = offset + 15;
+
             graphic.DrawString("***NEW***", new Font("Courier New", fonsizeSmall), new SolidBrush(Color.Black), startX, startY + offset);
             offset = offset + 10;
 

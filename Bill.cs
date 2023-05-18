@@ -11,5 +11,6 @@ namespace PrintLabel_New
         public List<BillHeaderData> BillHeaderData { get; set; } = new List<BillHeaderData>();
         public List<BillTranData> BillTranData { get; set; } = new List<BillTranData>();
         public List<PrinterData> PrinterData { get; set; } = new List<PrinterData>();
+        public List<DeliveryMoreAddress> DeliveryMoreAddress { get; set; } = new List<DeliveryMoreAddress>();
     }
 }

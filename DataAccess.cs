@@ -19,7 +19,7 @@ namespace PrintLabel_New
             {
                 conn.Open();
                 SqlCommand command = new SqlCommand(
-                    @"select bill_No, bill_date,bill_start_time, No_Of_Pax ,bill_amt,Table_No,clrk_code from bill_header WHERE IsPrinted = 0 AND clrk_code =" + clrk_code, conn);
+                    @"select bill_No, bill_date,bill_start_time, No_Of_Pax ,bill_amt,Table_No,clrk_code,cCode,bill_end_time from bill_header WHERE IsPrinted = 0 AND clrk_code =" + clrk_code, conn);
 
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
@@ -35,6 +35,27 @@ namespace PrintLabel_New
                 if(bill.BillHeaderData.Count() == 0)
                 {
                     return new Bill();
+                }
+
+                var sqlQueryDelivery = @"select * from [dbo].[delivery_moreAddress] where ccode in (@0)";
+
+
+                var ccode = bill.BillHeaderData.Select(p => p.cCode).ToList();
+
+                var codeString = string.Join(",", ccode.ToList());
+
+                sqlQueryDelivery = sqlQueryDelivery.Replace("@0", codeString);
+
+                SqlCommand commandDel = new SqlCommand(sqlQueryDelivery, conn);
+
+                using (SqlDataReader reader = commandDel.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var newObject = new DeliveryMoreAddress();
+                        reader.MapDataToObject(newObject);
+                        bill.DeliveryMoreAddress.Add(newObject);
+                    }
                 }
 
                 var sqlQuery = @"select * from [dbo].[bill_tran] where Printer_No <> '0' AND IsPrinted = 0 AND bill_no in (@0) and bill_date in (@1)";

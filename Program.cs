@@ -25,6 +25,7 @@ namespace PrintLabel_New
 
                 foreach (var header in billdata.BillHeaderData)
                 {
+                    header.DeliveryMoreAddress = billdata.DeliveryMoreAddress.Where(p => p.ccode == header.cCode.Trim()).ToList();
                     header.BillTransactions = billdata.BillTranData.Where(p => p.bill_no == header.bill_no && p.bill_date == header.bill_date)
                     .ToList();
                     header.PrinterData = new List<PrinterData>();

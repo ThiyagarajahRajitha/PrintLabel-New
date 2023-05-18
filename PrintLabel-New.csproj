@@ -110,6 +110,7 @@
     <Compile Include="BillHeaderData.cs" />
     <Compile Include="BillTranData.cs" />
     <Compile Include="DataAccess.cs" />
+    <Compile Include="DeliveryMoreAddress.cs" />
     <Compile Include="Extension.cs" />
     <Compile Include="PrinterData.cs" />
     <Compile Include="Program.cs" />

@@ -14,7 +14,9 @@ namespace PrintLabel_New
         public decimal No_Of_Pax { get; set; }
         public decimal bill_amt { get; set; }
         public string Table_No { get; set; }
+        public string cCode { get; set; }
         public int KOTNo { get; set; }
+        public string bill_end_time { get; set; }
         public List<BillTranData> BillTransactions
         {
             get; set;
@@ -23,5 +25,6 @@ namespace PrintLabel_New
         {
             get; set;
         }
+        public List<DeliveryMoreAddress> DeliveryMoreAddress { get; set; }
     }
 }
