@@ -115,12 +115,16 @@ namespace PrintLabel_New
 
             if (isWithCustomerName)
             {
-                offset = offset + 8;
-                graphic.DrawString("Name: " + printData.DeliveryMoreAddress.FirstOrDefault().Cfname, new Font("Courier New", fonsizeSmall), new SolidBrush(Color.Black), startX, startY + offset);
-                offset = offset + (int)fontHeight + 7;
+                if (printData.DeliveryMoreAddress.Count() > 0)
+                {
+                    offset = offset + 8;
+                    graphic.DrawString("Name: " + printData.DeliveryMoreAddress.FirstOrDefault().Cfname, new Font("Courier New", fonsizeSmall), new SolidBrush(Color.Black), startX, startY + offset);
+                    offset = offset + (int)fontHeight + 7;
 
-                graphic.DrawString("Tel: " + printData.DeliveryMoreAddress.FirstOrDefault().cPhone, new Font("Courier New", fonsizeSmall), new SolidBrush(Color.Black), startX, startY + offset);
-                offset = offset + (int)fontHeight + 7;
+                    graphic.DrawString("Tel: " + printData.DeliveryMoreAddress.FirstOrDefault().cPhone, new Font("Courier New", fonsizeSmall), new SolidBrush(Color.Black), startX, startY + offset);
+                    offset = offset + (int)fontHeight + 7;
+                }
+                
             }
             graphic.DrawString("Pick up time : " + printData.bill_end_time, new Font("Courier New", fonsizeSmall), new SolidBrush(Color.Black), startX, startY + offset);
 

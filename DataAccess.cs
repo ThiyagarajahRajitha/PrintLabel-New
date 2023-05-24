@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -37,15 +38,12 @@ namespace PrintLabel_New
                     return new Bill();
                 }
 
-                var sqlQueryDelivery = @"select * from [dbo].[delivery_moreAddress] where ccode in (@0)";
+                var sqlQueryDelivery = @"select * from [dbo].[delivery_moreAddress] where ccode in ('@0')";
 
-
-                var ccode = bill.BillHeaderData.Select(p => p.cCode).ToList();
-
-                var codeString = string.Join(",", ccode.ToList());
-
+                var ccode = bill.BillHeaderData.Select(p => p.cCode.Trim()).Where(p => !string.IsNullOrEmpty(p)).Distinct().ToList();
+                var codeString = string.Join("','", ccode.ToList());
+                
                 sqlQueryDelivery = sqlQueryDelivery.Replace("@0", codeString);
-
                 SqlCommand commandDel = new SqlCommand(sqlQueryDelivery, conn);
 
                 using (SqlDataReader reader = commandDel.ExecuteReader())
